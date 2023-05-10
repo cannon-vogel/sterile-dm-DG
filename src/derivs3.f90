@@ -29,7 +29,11 @@
       Double precision :: ex, enux
       ! potentials and scaled \Gamma
       Double precision :: vl, vtf, sctf(N_P_BINS) 
-
+      
+      !(edited)
+      !Phi variables
+      Double precision :: mphi, lam
+      
       ! Local versions of variables on the heap
       Double precision :: pi_l, Gf_l, hbar_l, mp_l
       Double precision :: ms_l, s2_l, dm2_l
@@ -66,7 +70,12 @@
       !--------------------------------------------------------------
       scalef = exp(-y(2)) ! (a_start/a_current)
       leptasym = y(3) ! Leptasym in units of T^3
-
+      
+      !(edited)
+      !Phi parameters
+      mphi = 1.0D6
+      lam = 1.0D0
+      
       ! Flavor dependent parameters
       mx = 0.0D0
       mnux = 0.0D0
