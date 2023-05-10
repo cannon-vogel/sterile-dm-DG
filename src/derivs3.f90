@@ -136,16 +136,17 @@
         fnuxbar(i) = 1.0d0/                                             &
      &     ( 1.0d0 + exp((sqrt(p2_bins(i) + mnux**2)/temp) + munux))
 
-         ! Interaction rates in matter, in MeV
+         ! Interaction rates in matter, in MeV (edited)
         gams(i) = 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                      &
      &            ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +              &
      &            ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l     &
      &            - vl*2.0d0*p_bins_l(i)/dm2_l)**2)
+                  + 7.0d0*pi/864.0d0*lam**4/mphi**4*sqrt(ms_l**2+p2_bins(i))*temp**4
         gambs(i) = 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                     &
      &             ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +             &
      &             ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l    &
      &             + vl*2.0d0*p_bins_l(i)/dm2_l)**2)
-
+                   + 7.0d0*pi/864.0d0*lam**4/mphi**4*sqrt(ms_l**2+p2_bins(i))*temp**4
         ! Sterile PSD derivatives w.r.t time
         dydt(i+3) = (1.0d0/hbar_l)*gams(i)*( fnux(i) - y(i+3) )
         dydt(i+3+n_p_bins_l) = (1.0d0/hbar_l)*gambs(i)*                 &
