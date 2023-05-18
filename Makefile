@@ -5,7 +5,7 @@
 #-------------------------------------------------
 # Environment variables -- Change if needed
 #-------------------------------------------------
-FC =gfortran
+FC =/Users/cannonvogel/Desktop/usr/local/bin/gfortran
 
 FFLAGS =-g -Wall -fbacktrace
 
