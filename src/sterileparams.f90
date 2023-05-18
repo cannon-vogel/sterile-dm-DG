@@ -14,7 +14,7 @@
       integer :: Sterile_n_models
       logical :: Sterile_leptasym_mode
       character (LEN=INI_MAX_NAME_LEN) :: Sterile_common_flavor
-      double precision, pointer :: Sterile_ms_a(:), Sterile_s2_a(:),    &
+      double precision, pointer :: Sterile_ms_a(:), Sterile_s2_a(:),  Sterile_lam_a(:),  &
      &                             Sterile_leptasymi_a(:)
 
       save
@@ -24,7 +24,7 @@
         ! Reads in number and nature of sterile neutrino models from
         ! the parfile, and read in their parameters
 
-          integer :: nms, ns2, nleptasymi, i
+          integer :: nms, ns2, nlam, nleptasymi, i
 
           ! Flavor of active neutrino mixing w/ steriles 
           ! (For now we only have mu opacities)
@@ -33,20 +33,23 @@
           ! Find number of models to run
           nms = Ini_NumberOf('ms') ! Number of Masses
           ns2 = Ini_NumberOf('s2') ! Number of Mixing angles
+          nlam = Ini_NumberOf('lam') ! Number of Lambdas
     
-          if (nms /= ns2 .or. nms < 0) Then
-            stop 'error in param file, each model should have ms and s2'
+          if (nms /= ns2 .or. nms < 0 .or. nms /= nlam) Then
+            stop 'error in param file, each model should have ms and s2 and lam'
           else
             Sterile_n_models = nms
           end if
     
           allocate(Sterile_ms_a(Sterile_n_models))
           allocate(Sterile_s2_a(Sterile_n_models))
+          allocate(Sterile_lam_a(Sterile_n_models))
           allocate(Sterile_leptasymi_a(Sterile_n_models))
 
           do i=1, Sterile_n_models
             Sterile_ms_a(i) = Ini_Read_Double('ms',i)
             Sterile_s2_a(i) = Ini_Read_Double('s2',i)
+            Sterile_lam_a(i) = Ini_Read_Double('lam',i)
           end do
 
           ! Find how we are fixing the initial asymmetry
@@ -72,6 +75,7 @@
 
           deallocate(Sterile_ms_a)
           deallocate(Sterile_s2_a)
+          deallocate(Sterile_lam_a)
           deallocate(Sterile_leptasymi_a)
 
         end subroutine ! Sterile_Params_Close!}}}
