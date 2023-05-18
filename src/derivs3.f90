@@ -36,7 +36,7 @@
       
       ! Local versions of variables on the heap
       Double precision :: pi_l, Gf_l, hbar_l, mp_l
-      Double precision :: ms_l, s2_l, dm2_l
+      Double precision :: ms_l, s2_l, lam_l, dm2_l
       Integer :: n_p_bins_l
 
       ! Sterile nu integrands, calculated on the stack
@@ -74,7 +74,7 @@
       !(edited)
       !Phi parameters 1GeV with lam=1
       mphi = 1.0D3
-      lam = 1.0D0
+      
       
       ! Flavor dependent parameters
       mx = 0.0D0
@@ -113,6 +113,7 @@
       ms_l = ODE_ms
       dm2_l = (ODE_ms - mnux)**2
       s2_l = ODE_s2
+      lam_l = ODE_lam
       n_p_bins_l = N_P_BINS
 
       ! Define Lagrangian momentum bins on stack, and update heap 
@@ -150,12 +151,12 @@
      &            ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +              &
      &            ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l     &
      &            - vl*2.0d0*p_bins_l(i)/dm2_l)**2)
-                  + 7.0d0*pi/864.0d0*lam**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
+                  + 7.0d0*pi/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
         gambs(i) = 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                     &
      &             ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +             &
      &             ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l    &
      &             + vl*2.0d0*p_bins_l(i)/dm2_l)**2)
-                   + 7.0d0*pi/864.0d0*lam**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
+                   + 7.0d0*pi/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
         ! Sterile PSD derivatives w.r.t time
         dydt(i+3) = (1.0d0/hbar_l)*gams(i)*( fnux(i) - y(i+3) )
         dydt(i+3+n_p_bins_l) = (1.0d0/hbar_l)*gambs(i)*                 &
