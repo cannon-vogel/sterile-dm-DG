@@ -26,7 +26,7 @@
       double precision   :: ODE_p_bin_save(NMAX,KMAXX)
 
       ! sterile parameters
-      double precision   :: ODE_ms, ODE_s2, ODE_leptasymi
+      double precision   :: ODE_ms, ODE_s2, ODE_lam, ODE_leptasymi
       character(len=INI_MAX_NAME_LEN) :: ODE_flavor
       ! solver's internal variables
       ! number of variables
@@ -61,6 +61,7 @@
 
           ODE_ms = Sterile_ms_a(i)
           ODE_s2 = Sterile_s2_a(i)
+          ODE_lam = Sterile_lam_a(i)
           ODE_leptasymi = Sterile_leptasymi_a(i)
           ODE_flavor = Sterile_common_flavor
 
@@ -68,13 +69,14 @@
       !-------------------------------------------------------------
 
       !-------------------------------------------------------------
-        subroutine ODE_Init_From_Params(ms_in, s2_in, l_in, fl_in)!{{{
+        subroutine ODE_Init_From_Params(ms_in, s2_in, lam_in, l_in, fl_in)!{{{
         ! Init or update sterile neutrino params individually
-          double precision, optional, intent(IN) :: ms_in, s2_in, l_in
+          double precision, optional, intent(IN) :: ms_in, s2_in, lam_in, l_in
           character (LEN=*), optional, intent(IN):: fl_in
 
           if (present(ms_in)) ODE_ms = ms_in
           if (present(s2_in)) ODE_s2 = s2_in
+          if(present(lam_in)) ODE_lam = lam_in
           if (present(l_in)) ODE_leptasymi = l_in
           if (present(fl_in)) ODE_flavor = fl_in
 
@@ -379,7 +381,7 @@
 
           ! First (re)create output directory
           write(dname, "(A9,A2,1pE9.3E2,A2,1pE9.3E2,A1,1pE9.3E2)")      &
-     &    'outfiles/','ms',ODE_ms,'s2',ODE_s2,'L',ODE_leptasymi
+     &    'outfiles/','ms',ODE_ms,'s2',ODE_s2,'lam',ODE_lam,'L',ODE_leptasymi
           call system(dmake // trim(dname))
 
           ! Then (over)write a param file
@@ -389,6 +391,7 @@
      &         status='unknown')
           Write(fppar,"(1pE24.16,A6)")  ODE_ms, ' # m_s'
           Write(fppar,"(1pE24.16,A16)") ODE_s2, ' # \sin^2 \theta'
+          Write(fppar,"(1pE24.16,A7)")  ODE_lam, ' # lam'
           Write(fppar,"(1pE24.16,A12)") lkev, ' # L/n_gamma'
           Write(fppar,"(1pE24.16,A17)") omeganet, ' # \Omega_wdm h^2'
           Write(fppar,"(1pE24.16,A15)") omegas, ' # \Omega_s h^2'
