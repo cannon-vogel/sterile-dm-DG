@@ -7,7 +7,7 @@
 #-------------------------------------------------
 FC =/Users/cannonvogel/Desktop/usr/local/bin/gfortran
 
-FFLAGS =-g -Wall -fbacktrace
+FFLAGS =-g -Wall -fbacktrace -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 
 # Library directory (if any)
 LDIR = lib
