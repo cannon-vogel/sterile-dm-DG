@@ -35,8 +35,8 @@
       ! Number of momentum bins
       integer, parameter :: N_P_BINS = 1000
       ! Lowest & highest momentum bins at start, in temperature units
-      double precision, parameter :: PTMIN_IN = 1.0D-4
-      double precision, parameter :: PTMAX_IN = 2.0D1 - 1.0D-5
+      double precision, parameter :: PTMIN_IN = 1.0D-3
+      double precision, parameter :: PTMAX_IN = 2.0D0 - 1.0D-5
       ! Acceptable relative error in integrator
       double precision, parameter :: D_TOL = 1.0e-6!}}}
 
