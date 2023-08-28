@@ -132,6 +132,7 @@
       ! Calculating df/dt entirely on the stack
       !------------------------------------------------------------------
       !$OMP PARALLEL DO
+      PRINT *, "The value of max i is:", n_p_bins_l
       Do i=1, n_p_bins_l
         p2_bins(i) = p_bins_l(i)**2
         estert(i) = sqrt(p2_bins(i) + ms_l**2)
@@ -146,11 +147,21 @@
         fnuxbar(i) = 1.0d0/                                             &
      &     ( 1.0d0 + exp((sqrt(p2_bins(i) + mnux**2)/temp) + munux))
 
+        
+        PRINT *, "The value of i is:", i
+        PRINT *, "The value of p_bins_l(i) is:", p_bins_l(i)
+        PRINT *, "The value of p2_bins(i) is:", p2_bins(i)
         PRINT *, "The value of lam_l is:", lam_l
         PRINT *, "The value of mph is:", mphi
-        PRINT *, "The value of pi_l is:", pi_l
         PRINT *, "The value of temp is:", temp
         PRINT *, "The value of all is:", 7.0d0*pi_l/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
+        PRINT *, "The value of old gambs(i) is:", 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                     &
+     &             ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +             &
+     &             ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l    &
+     &             + vl*2.0d0*p_bins_l(i)/dm2_l)**2)
+
+        PRINT *, "The value of dydt is:", (1.0d0/hbar_l)*gams(i)*( fnux(i) - y(i+3) )
+        
          ! Interaction rates in matter, in MeV (edited)
         gams(i) = 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                      &
      &            ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +              &
