@@ -146,6 +146,11 @@
         fnuxbar(i) = 1.0d0/                                             &
      &     ( 1.0d0 + exp((sqrt(p2_bins(i) + mnux**2)/temp) + munux))
 
+        PRINT *, "The value of lam_l is:", lam_l
+        PRINT *, "The value of mph is:", mphi
+        PRINT *, "The value of pi_l is:", pi_l
+        PRINT *, "The value of temp is:", temp
+        PRINT *, "The value of all is:", 7.0d0*pi_l/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
          ! Interaction rates in matter, in MeV (edited)
         gams(i) = 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                      &
      &            ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +              &
