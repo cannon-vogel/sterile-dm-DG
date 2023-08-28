@@ -216,7 +216,7 @@
       ! dt/dT = -(d\rho_SM/dT)/(3 H (rho_SM + p_SM ) + drho_s/dt) 
       ! extra factor to account for sterile production
       dtdT = -drhoSMdT/( drhosdt + 3.0d0*hubcst*entropySM*temp )
-
+      PRINT *,"The value of dtdT is:",dtdT
       ! Convert time derivatives to temperature derivatives
       !------------------------------------------------------------------
       Do i=1, nvr
@@ -225,6 +225,8 @@
       ! Correction to dL/dT since T doesn't go as a^{-1}
       dydtemp(3) = dydtemp(3) -                                         &
      &             3.0D0*( hubcst*dtdT + (1.0D0/temp) )*leptasym
+     PRINT *,"the value of dydtemp(i) is:",dydtemp(i)
+     PRINT *,"the value of dydtemp(3) is:",dydtemp(3)
       !------------------------------------------------------------------
       RETURN
       END Subroutine ! derivstemp!}}}
