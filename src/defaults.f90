@@ -55,10 +55,10 @@
       !-------------------------------------------------------------
       ! Parameters for brent solver for lepton asymmetry!{{{
       ! limits for L_i/T^3 (hardcoded for now, change later)
-      double precision, parameter :: L_LOW = 1.000D-3 
+      double precision, parameter :: L_LOW = 1.000D-6 
       double precision, parameter :: L_HIGH = 6.000D-3
       ! tolerance
-      double precision, parameter :: L_TOL = 5.0D-6!}}}
+      double precision, parameter :: L_TOL = 5.0D-8!}}}
 
       !-------------------------------------------------------------
       Save
