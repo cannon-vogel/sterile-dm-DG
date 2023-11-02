@@ -45,7 +45,7 @@
       Double precision rhosteri(N_P_BINS), rhoster
       ! Production of sterile neutrinos     
       ! Opacities in matter
-      Double precision gams(N_P_BINS), gambs(N_P_BINS)
+      Double precision gams(N_P_BINS), gambs(N_P_BINS), nsi(N_P_BINS)
       ! SM neutrino PSDs
       Double precision fnux(N_P_BINS), fnuxbar(N_P_BINS)
       ! Time derivatives
@@ -102,7 +102,7 @@
       ! Asymmetry potential in MeV
       vl = vasym(temp, ODE_flavor)*Gf*leptasym*temp**3
       ! Dimensionless factor relating thermal potential and p
-      vtf = -(8.0*sqrt(2.0D0)/3.0)*Gf*temp**4*(enux/mz**2 + ex/mw**2)
+      vtf = -(8.0*sqrt(2.0D0)/3.0)*Gf*temp**4*(enux/mz**2 + ex/mw**2) -7*pi_l**2*lam_l**2*temp**4
 
       ! Read into stack
       pi_l = pi
@@ -146,23 +146,19 @@
         fnuxbar(i) = 1.0d0/                                             &
      &     ( 1.0d0 + exp((sqrt(p2_bins(i) + mnux**2)/temp) + munux))
 
-      (new)
-      deltaDG = ms_l**2/(2*
-      s2eff_l = 
-
-
 
          ! Interaction rates in matter, in MeV (edited)
-        gams(i) = 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                      &
-     &            ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +              &
+        nsi(i) = 7.0d0*pi_l/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
+        gams(i) = 0.25d0*(sctf(i)+nsi(i))*p_bins_l(i)*s2_l/                      &
+     &            ( s2_l + ((sctf(i)+nsi(i))*p2_bins(i)/dm2_l)**2 +              &
      &            ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l     &
      &            - vl*2.0d0*p_bins_l(i)/dm2_l)**2)                     &
-     &            + 7.0d0*pi_l/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4*s2eff_l
-        gambs(i) = 0.25d0*sctf(i)*p_bins_l(i)*s2_l/                     &
-     &             ( s2_l + (sctf(i)*p2_bins(i)/dm2_l)**2 +             &
+     &            
+        gambs(i) = 0.25d0*(sctf(i)+nsi(i))*p_bins_l(i)*s2_l/                     &
+     &             ( s2_l + ((sctf(i)+nsi(i))*p2_bins(i)/dm2_l)**2 +             &
      &             ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l    &
      &             + vl*2.0d0*p_bins_l(i)/dm2_l)**2)                    &
-     &             + 7.0d0*pi_l/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4*s2eff_l
+     &             
         ! Sterile PSD derivatives w.r.t time
         dydt(i+3) = (1.0d0/hbar_l)*gams(i)*( fnux(i) - y(i+3) )
         dydt(i+3+n_p_bins_l) = (1.0d0/hbar_l)*gambs(i)*                 &
