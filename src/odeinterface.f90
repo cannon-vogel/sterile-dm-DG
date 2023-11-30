@@ -380,7 +380,7 @@
           omeganet = omegas + omegasbar
 
           ! First (re)create output directory
-          write(dname, "(A9,A2,1pE9.3E2,A2,1pE9.3E2,A1,1pE9.3E2)")      &
+          write(dname, "(A9,A2,1pE9.3E2,A2,1pE9.3E2,A2,1pE9.3E2,A1,1pE9.3E2)")      &
      &    'outfiles/','ms',ODE_ms,'s2',ODE_s2,'lam',ODE_lam,'L',ODE_leptasymi
           call system(dmake // trim(dname))
 
@@ -391,7 +391,7 @@
      &         status='unknown')
           Write(fppar,"(1pE24.16,A6)")  ODE_ms, ' # m_s'
           Write(fppar,"(1pE24.16,A16)") ODE_s2, ' # \sin^2 \theta'
-          Write(fppar,"(1pE24.16,A7)")  ODE_lam, ' # lam'
+          Write(fppar,"(1pE24.16,A6)")  ODE_lam, ' # lam'
           Write(fppar,"(1pE24.16,A12)") lkev, ' # L/n_gamma'
           Write(fppar,"(1pE24.16,A17)") omeganet, ' # \Omega_wdm h^2'
           Write(fppar,"(1pE24.16,A15)") omegas, ' # \Omega_s h^2'
