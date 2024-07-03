@@ -33,6 +33,11 @@
       !(edited)
       !Phi variables
       Double precision :: mphi, lam
+      real(8) :: E, m_v, m_u, m_t, w, y_v, Gamma_v
+      real(8), dimension(2) :: r_a
+      integer :: i, cineq
+      real(8), parameter :: pi = 3.141592653589793d0
+      external :: sqrt, exp, erfc
       
       ! Local versions of variables on the heap
       Double precision :: pi_l, Gf_l, hbar_l, mp_l
@@ -72,8 +77,12 @@
       leptasym = y(3) ! Leptasym in units of T^3
       
       !(edited)
-      !Phi parameters 1GeV with lam=1
-      mphi = 1.0D3
+      !Phi parameters (units)
+      m_v = 1.0D3 !adjust to params variable 
+      m_u = 105.66 ! muon GeV
+      m_t = 1.7769d3 ! tau GeV
+      r_a(1) = (m_u**2) / (m_v**2)
+      r_a(2) = (m_t**2) / (m_v**2)
       
       
       ! Flavor dependent parameters
@@ -147,8 +156,31 @@
      &     ( 1.0d0 + exp((sqrt(p2_bins(i) + mnux**2)/temp) + munux))
 
 
-         ! Interaction rates in matter, in MeV (edited)
-        nsi(i) = 7.0d0*pi_l/864.0d0*lam_l**4/mphi**4*sqrt(mnux**2+p2_bins(i))*temp**4
+        ! Interaction rates in matter, in MeV (edited)
+        E=sqrt(mnux**2+p2_bins(i))
+        w = m_v**2 / (4.d0 * E * T)
+
+        ! Initial y_v
+        y_v = (g_ut**2 * m_v) / (12.d0 * pi)
+        y_v = (lam_l**2 * m_v) / (12.d0 * pi)
+        do i = 1, 2
+           y_v = y_v + (lam_l**2 * m_v) / (12.d0 * pi) * &
+                ((1.d0 + 2.d0 * r_a(i)) * sqrt(1.d0 - 4.d0 * r_a(i)) * &
+                merge(1.d0, 0.d0, 1.d0 - 4.d0 * r_a(i) >= 0.d0))
+        end do
+
+        ! Determine cineq
+        if (T >= 2.d0 * m_t) then
+           cineq = 3
+        elseif (T < 2.d0 * m_u) then
+           cineq = 1
+        else
+           cineq = 2
+        end if
+        
+        nsi(i) = real(cineq * lam_l**4 * m_v**2 * T / &
+              (48.d0 * pi**2 * y_v * E**2) * &
+              (exp(-w) + sqrt(pi / (4.d0 * w) * erfc(w))), 8)
         gams(i) = 0.25d0*(sctf(i)+nsi(i))*p_bins_l(i)*s2_l/                      &
      &            ( s2_l + ((sctf(i)+nsi(i))*p2_bins(i)/dm2_l)**2 +              &
      &            ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l     &
