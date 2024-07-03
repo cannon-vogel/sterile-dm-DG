@@ -157,26 +157,26 @@
 
         ! Interaction rates in matter, in MeV (edited)
         E=sqrt(mnux**2+p2_bins(i))
-        w = m_v**2 / (4.d0 * E * T)
+        w = m_v**2 / (4.d0 * E * temp)
 
         ! Initial y_v
         y_v = (lam_l**2 * m_v) / (12.d0 * pi)
-        do i = 1, 2
+        do j = 1, 2
            y_v = y_v + (lam_l**2 * m_v) / (12.d0 * pi) * &
-                ((1.d0 + 2.d0 * r_a(i)) * sqrt(1.d0 - 4.d0 * r_a(i)) * &
-                merge(1.d0, 0.d0, 1.d0 - 4.d0 * r_a(i) >= 0.d0))
+                ((1.d0 + 2.d0 * r_a(j)) * sqrt(1.d0 - 4.d0 * r_a(j)) * &
+                merge(1.d0, 0.d0, 1.d0 - 4.d0 * r_a(j) >= 0.d0))
         end do
 
         ! Determine cineq
-        if (T >= 2.d0 * m_t) then
+        if (temp >= 2.d0 * m_t) then
            cineq = 3
-        elseif (T < 2.d0 * m_u) then
+        elseif (temp < 2.d0 * m_u) then
            cineq = 1
         else
            cineq = 2
         end if
         
-        nsi(i) = real(cineq * lam_l**4 * m_v**2 * T / &
+        nsi(i) = real(cineq * lam_l**4 * m_v**2 * temp / &
               (48.d0 * pi**2 * y_v * E**2) * &
               (exp(-w) + sqrt(pi / (4.d0 * w) * erfc(w))), 8)
         gams(i) = 0.25d0*(sctf(i)+nsi(i))*p_bins_l(i)*s2_l/                      &
