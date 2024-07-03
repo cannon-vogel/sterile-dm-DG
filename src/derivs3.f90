@@ -35,9 +35,8 @@
       Double precision :: mphi, lam
       real(8) :: E, m_v, m_u, m_t, w, y_v, Gamma_v
       real(8), dimension(2) :: r_a
-      integer :: i, cineq
-      real(8), parameter :: pi = 3.141592653589793d0
-      external :: sqrt, exp, erfc
+      integer :: cineq
+      !external :: sqrt, exp, erfc
       
       ! Local versions of variables on the heap
       Double precision :: pi_l, Gf_l, hbar_l, mp_l
@@ -161,7 +160,6 @@
         w = m_v**2 / (4.d0 * E * T)
 
         ! Initial y_v
-        y_v = (g_ut**2 * m_v) / (12.d0 * pi)
         y_v = (lam_l**2 * m_v) / (12.d0 * pi)
         do i = 1, 2
            y_v = y_v + (lam_l**2 * m_v) / (12.d0 * pi) * &
