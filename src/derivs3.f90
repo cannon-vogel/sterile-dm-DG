@@ -35,7 +35,7 @@
       Double precision :: mphi, lam
       real(8) :: E, m_v, m_u, m_t, w, y_v, Gamma_v
       real(8), dimension(2) :: r_a
-      integer :: cineq
+      integer :: cineq, j
       !external :: sqrt, exp, erfc
       
       ! Local versions of variables on the heap
