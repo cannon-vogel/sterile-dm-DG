@@ -178,7 +178,7 @@
         
         nsi(i) = real(cineq * lam_l**4 * m_v**2 * temp / &
               (48.d0 * pi**2 * y_v * E**2) * &
-              (exp(-w) + sqrt(pi / (4.d0 * w) * erfc(w))), 8)
+              (exp(-w) + sqrt(pi / (4.d0 * w)) * erfc(w)), 8)
         gams(i) = 0.25d0*(sctf(i)+nsi(i))*p_bins_l(i)*s2_l/                      &
      &            ( s2_l + ((sctf(i)+nsi(i))*p2_bins(i)/dm2_l)**2 +              &
      &            ( sqrt(1.0D0 - s2_l) - vtf*2.0d0*p2_bins(i)/dm2_l     &
